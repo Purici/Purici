@@ -1,40 +1,50 @@
-import zipfile
-import os
+border: none;
+    cursor: pointer;
+}
 
-# Create directories
-os.makedirs('/mnt/data/project/gallery', exist_ok=True)
+form input[type="submit"]:hover {
+    background-color: #005599;
+}
 
-# Create HTML file
-html_content = """<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Установка мебели и перевозка тяжелых грузов</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1>Установка мебели и перевозка тяжелых грузов</h1>
-        <nav>
-            <ul>
-                <li><a href="#home">Главная</a></li>
-                <li><a href="#about">О нас</a></li>
-                <li><a href="#services">Услуги</a></li>
-                <li><a href="#gallery">Галерея</a></li>
-                <li><a href="#contact">Контакты</a></li>
-                <li><a href="#blog">Блог</a></li>
-            </ul>
-        </nav>
-    </header>
-    <section id="home">
-        <h2>Профессиональные услуги по доступным ценам</h2>
-        <p>Предлагаем качественные услуги по установке мебели и транспортировке тяжелых предметов. Наша команда профессионалов обеспечит безопасную и быструю работу.</p>
-        <button onclick="location.href='#contact'">Заказать сейчас</button>
-        <button onclick="location.href='#services'">Узнать больше</button>
-    </section>
-    <section id="about">
-        <h2>О нас</h2>
-        <p>Наша компания имеет более 10 лет опыта в установке мебели и перевозке тяжелых грузов. Мы гарантируем качество и надежность наших услуг.</p>
-    </section>
-    <section id
+#gallery img {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px;
+}
+"""
+
+# Example images
+image1_path = '/mnt/data/project/gallery/image1.jpg'
+image2_path = '/mnt/data/project/gallery/image2.jpg'
+image3_path = '/mnt/data/project/gallery/image3.jpg'
+
+# Create example images
+from PIL import Image, ImageDraw
+
+def create_example_image(path, text):
+    img = Image.new('RGB', (300, 200), color = (73, 109, 137))
+    d = ImageDraw.Draw(img)
+    d.text((10,10), text, fill=(255,255,255))
+    img.save(path)
+
+create_example_image(image1_path, "Пример работы 1")
+create_example_image(image2_path, "Пример работы 2")
+create_example_image(image3_path, "Пример работы 3")
+
+# Write files
+with open('/mnt/data/project/index.html', 'w', encoding='utf-8') as file:
+    file.write(html_content)
+
+with open('/mnt/data/project/styles.css', 'w', encoding='utf-8') as file:
+    file.write(css_content)
+
+# Create zip file
+zip_path = '/mnt/data/project.zip'
+with zipfile.ZipFile(zip_path, 'w') as zipf:
+    zipf.write('/mnt/data/project/index.html', 'index.html')
+    zipf.write('/mnt/data/project/styles.css', 'styles.css')
+    zipf.write(image1_path, 'gallery/image1.jpg')
+    zipf.write(image2_path, 'gallery/image2.jpg')
+    zipf.write(image3_path, 'gallery/image3.jpg')
+
+zip_path
